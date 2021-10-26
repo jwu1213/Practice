@@ -1,6 +1,6 @@
 library(tidyverse)
 
-#1 Building a chloropleth of county level data for all crimes, all ages in 2009
+#Building a chloropleth of county level data for all crimes, all ages in 2009
 #Reading the initial data
 data<-read_delim("./ICPSR_30763/DS0001/30763-0001-Data.tsv",delim = "\t")
 unique(data$STUDYNO)
@@ -73,8 +73,12 @@ ggplot(plot_data)+
 options(scipen=999)
 ggplot(plot_data) + 
   geom_polygon(aes(long,lat,fill=GRNDTOT,group=group))+
-  scale_fill_viridis_c(trans="log10")
+  scale_fill_viridis_c(trans="log10")+
+  expand_limits(x=plot_data$long, y=plot_data$lat)+
+  ggtitle("Map of Crime Totals by County (2009)")+
+  theme(text = element_text(size=8))
 
+View(plot_data)
 View(data %>% filter(state_name=="florida")) #no Florida data
 
 ############## NOT WORKING ################ Plot Juvenile Data
@@ -116,7 +120,9 @@ plot_data <- counties %>%
 ggplot(plot_data %>% filter(!is.na(type))) + 
   geom_polygon(aes(long,lat,fill=count,group=group))+
   scale_fill_viridis_c(trans="log10")+
-  facet_wrap(~type)
+  facet_wrap(~type)+
+  ggtitle("Maps of Arson, Drug Possession, DUI, and Murder by Count in the U.S. (2009)")+
+  theme(text = element_text(size=8))
 
 ###############################################################
 #Scatter to explore correlations by county with DUI
@@ -144,7 +150,9 @@ ggplot(sub_data %>% filter(!is.na(type))) +
   geom_point(aes(DUI,count),alpha=.3)+
   facet_wrap(~type,scales="free_y")+
   scale_x_log10()+
-  scale_y_log10()
+  scale_y_log10()+
+  ggtitle("Relationship between Arson, Drug Possession, and Murder with a baseline of DUI (2009)")+
+  theme(text = element_text(size=8))
 
 ###############################################################
 #Seeing if there's a correlation between Gambling and other crimes related to assault and burglary.
@@ -158,7 +166,9 @@ ggplot(Gamble_data %>% filter(!is.na(type))) +
   geom_point(aes(GAMBLE,count))+
   facet_wrap(~type,scales="free_y")+
   scale_x_log10()+
-  scale_y_log10()
+  scale_y_log10()+
+  ggtitle("Relationship between Theft and Violent Crime with a baseline of Gambling Offenses (2009)")+
+  theme(text = element_text(size=8))
 ###############################################################
 #Creating a heat map to explore all crime by state
 names(data)
@@ -213,7 +223,9 @@ ggplot(sub_data %>%
          filter(!(type %in% c("ALLOTHR","DRUGTOT")))) + 
   geom_tile(aes(state_name,type,fill = scaled_count)) +
   scale_fill_viridis_c(trans="log10")+
-  theme(axis.text.x = element_text(angle=45,hjust=1))
+  theme(axis.text.x = element_text(angle=45,hjust=1))+
+  ggtitle("Heat map of All Crime by state (2009)")+
+  theme(text = element_text(size=8))
 
 ###############################################
 #Violin chart representing the proportion of the top 10 crimes for each state
