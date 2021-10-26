@@ -1,2 +1,2 @@
 # Practice
-Just some of the things I'm working on!
+Individual Skills I'm working on!
