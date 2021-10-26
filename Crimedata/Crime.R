@@ -77,7 +77,7 @@ ggplot(plot_data) +
 
 View(data %>% filter(state_name=="florida")) #no Florida data
 
-############## NOT WORKING ################ EXERCISE 2 (you do it):  Do the same thing for just adults & juveniles.  Compare the two maps using facet_wrap.  If you want to see them on the same scale, use "bind_rows"
+############## NOT WORKING ################ Plot Juvenile Data
 view(data)
 View(plot_data)
 
